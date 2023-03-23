@@ -1,6 +1,6 @@
 import './App.css';
 import UserList from "./components/Users/UserList";
-import Panel from "./components/UI/Panel";
+import Panel from "./components/UI/Panel/Panel";
 
 function App() {
     return (
