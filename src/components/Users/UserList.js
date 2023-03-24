@@ -1,28 +1,42 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addUser, fetchUsers} from '../../store'
 import {Skeleton} from "../Loader/Skeleton";
 import Button from "../UI/Button/Button";
 
 const UsersList = () => {
+    const [isLoadingUsers, setIsLoadingUsers] = useState(false);
+    const [loadingUsersError, setLoadingUsersError] = useState(null);
+    const [isCreatingUser, setIsCreatingUser] = useState(false);
+    const [creatingUserError, setCreatingUserError] = useState(null)
+
     const dispatch = useDispatch();
-    const {isLoading, usersDataList, error} = useSelector((state) => {
+
+    const { usersDataList} = useSelector((state) => {
         return state.users;
     })
 
     const handleAddUser = ()=>{
+        setIsCreatingUser(true)
         dispatch(addUser())
+            .unwrap()
+            .catch(err => setCreatingUserError(err))
+            .finally(()=>setIsCreatingUser(false))
     }
 
     useEffect(() => {
+        setIsLoadingUsers(true)
         dispatch(fetchUsers())
+            .unwrap()
+            .catch((err)=>setLoadingUsersError(err))
+            .finally(()=>setIsLoadingUsers(false))
     }, [dispatch])
 
-    if (isLoading) {
+    if (isLoadingUsers) {
         return (<Skeleton times={6} classNameProp={'h-10 w-full'}/>)
     }
-    if (error) {
-        return (<div>{error.message}</div>)
+    if (loadingUsersError) {
+        return (<div>loadingUsersError.message</div>)
     }
 
     const renderedUsersList = usersDataList.map(user => {
@@ -34,13 +48,18 @@ const UsersList = () => {
             </div>)
     })
 
-    return <div>
+    return (<div>
         <div className="flex flex-row justify-between m-3">
             <h1 className={'m-2 text-xl'}>Users</h1>
-            <Button primary onClick={handleAddUser}>+Add user</Button>
+            {
+                isCreatingUser
+                    ? 'Creating user...'
+                    : <Button primary onClick={handleAddUser}>+Add user</Button>
+            }
+            {creatingUserError && 'Error creating user...'}
         </div>
         {renderedUsersList || 'List of users are empty'}
-    </div>
+    </div>)
 }
 
 export default UsersList;
