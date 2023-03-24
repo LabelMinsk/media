@@ -1,7 +1,7 @@
 import classNames from "classnames";
 
 export const Skeleton = ({times,classNameProp}) => {
-    const outerClassNames = classNames(
+    const outerBlockClassNames = classNames(
         'relative',
         'overflow-hidden',
         'bg-gray-200',
@@ -9,7 +9,7 @@ export const Skeleton = ({times,classNameProp}) => {
         'mb-2.5',
         classNameProp
     );
-    const innerClassNames = classNames(
+    const innerBlockClassNames = classNames(
         'animate-shimmer',
         'absolute',
         'inset-0',
@@ -20,15 +20,13 @@ export const Skeleton = ({times,classNameProp}) => {
         'to-gray-200'
     );
 
-    const boxes = Array(times)
+    return Array(times)
         .fill('')
         .map((_, i) => {
             return (
-                <div key={i} className={outerClassNames}>
-                    <div className={innerClassNames}/>
+                <div key={i} className={outerBlockClassNames}>
+                    <div className={innerBlockClassNames}/>
                 </div>
             )
         });
-
-    return boxes;
 }
