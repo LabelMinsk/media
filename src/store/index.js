@@ -10,3 +10,4 @@ export const store = configureStore({
 //routing for export from this for better communicate
 export * from './thunks/fetchUsers';
 export * from './thunks/addUser';
+export * from './thunks/removeUser'
