@@ -1,9 +1,15 @@
-import {useFetchAlbumsQuery} from "../../store";
+import {useFetchAlbumsQuery, useAddAlbumMutation} from "../../store";
 import {Skeleton} from "../Loader/Skeleton";
 import ExpandablePanel from "../UI/ExpandablePanel/ExpandablePanel";
+import Button from "../UI/Button/Button";
 
 function AlbumsList({user}) {
     const {data, error, isLoading} = useFetchAlbumsQuery(user.id);
+    const [addAlbum, results] = useAddAlbumMutation()
+
+    const handleAddAlbum = (userId) => {
+        addAlbum(userId);
+    }
 
     let content;
 
@@ -19,9 +25,19 @@ function AlbumsList({user}) {
             </ExpandablePanel>)
         })
     }
+
+
     return (
         <div>
-            {content}
+            <div className={'flex justify-between'}>
+                Albums for {user.name}
+                <Button
+                    secondary
+                    onClick={()=>handleAddAlbum(user.id)}>
+                    +Add album
+                </Button>
+            </div>
+            <div>{content}</div>
         </div>
     )
 
