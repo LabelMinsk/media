@@ -1,10 +1,24 @@
 {
   "users": [
     {
-      "id": "_RzvWLzZLGca0kV62XBF9",
-      "name": "Mrs. Edgar Schaden"
+      "id": "YaTALTQdbsKxzxvgacw80",
+      "name": "Myra"
+    },
+    {
+      "id": "BpoCJW1hRKNQCtVGixIKT",
+      "name": "Emmett Legros"
+    },
+    {
+      "id": "X9A52HVH7cWH8wttixWp4",
+      "name": "Kathleen Romaguera"
     }
   ],
-  "albums": [],
+  "albums": [
+    {
+      "id": "YaTALTQdbsKx",
+      "title": "Hiking Trip",
+      "userId": "YaTALTQdbsKxzxvgacw80"
+    }
+  ],
   "photos": []
 }

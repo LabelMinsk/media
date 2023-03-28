@@ -7,10 +7,10 @@ import Button from "../UI/Button/Button";
 import UsersListItem from "./UsersListItem";
 
 
+
 const UsersList = () => {
     const [doFetchUsers, isLoadingUsers, loadingUsersError] = useThunk(fetchUsers)
     const [doAddUsers, isCreatingUser, creatingUserError] = useThunk(addUser);
-
 
     const {usersDataList} = useSelector((state) => {
         return state.users;
@@ -32,7 +32,9 @@ const UsersList = () => {
         content = (<div>loadingUsersError.message</div>)
     } else {
         content = usersDataList.map(user => {
-            return <UsersListItem key={user.id} user={user}/>
+            return (<>
+                <UsersListItem key={user.id} user={user}/>
+            </>)
         })
     }
 
