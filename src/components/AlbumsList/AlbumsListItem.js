@@ -1,6 +1,7 @@
 import ExpandablePanel from "../UI/ExpandablePanel/ExpandablePanel";
 import Button from "../UI/Button/Button";
 import {useRemoveAlbumMutation} from "../../store";
+import PhotosList from "../PhotosList/PhotosList";
 
 
 function AlbumsListItem({album}) {
@@ -21,7 +22,7 @@ function AlbumsListItem({album}) {
 
     return (<>
         <ExpandablePanel key={album.id} header={header}>
-            List of photos in the album
+            <PhotosList album={album}/>
         </ExpandablePanel>
     </>)
 }
