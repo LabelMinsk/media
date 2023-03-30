@@ -8,13 +8,27 @@ const albumsApi = createApi({
     }),
     endpoints(builder) {
         return {
+            removeAlbum: builder.mutation({
+                invalidatesTags:(result, error, album)=>{
+                    return [{type:'Album', id:album.userId}];
+                },
+                query:(album)=> {
+                    return{
+                        method:'DELETE',
+                        url: `/albums/${album.id}`
+                    };
+                },
+            }),
             addAlbum: builder.mutation({
-                query: (userId) => {
+                invalidatesTags:(result,error,user)=>{
+                    return [{type:'Album', id: user.id}]
+                },
+                query: (user) => {
                     return{
                         url:'/albums',
                         method:'POST',
                         body:{
-                            userId: userId,
+                            userId: user.id,
                             title: faker.commerce.productName()
                         }
                     }
@@ -22,11 +36,17 @@ const albumsApi = createApi({
                 }
             }),
             fetchAlbums: builder.query({
-                query: (userId) => {
+                providesTags:(result, error, user)=>{
+                    return [{
+                        type:'Album',
+                        id: user.id
+                    }]
+                },
+                query: (user) => {
                     return {
                         url: '/albums',
                         params: {
-                            userId: userId
+                            userId: user.id
                         },
                         method: 'GET'
                     }
@@ -37,5 +57,8 @@ const albumsApi = createApi({
     }
 })
 
-export const {useFetchAlbumsQuery, useAddAlbumMutation} = albumsApi;
+export const {
+    useFetchAlbumsQuery,
+    useAddAlbumMutation,
+    useRemoveAlbumMutation} = albumsApi;
 export {albumsApi};
